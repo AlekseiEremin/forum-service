@@ -39,25 +39,47 @@ public class UserAccountServiceImpl implements UserAccountService {
 
 	@Override
 	public UserDto removeUser(String login) {
-		// TODO Auto-generated method stub
-		return null;
+		UserAccount userAccount = userAccountRepository.findById(login).orElseThrow(UserNotFoundException::new);
+		userAccountRepository.delete(userAccount);
+		return modelMapper.map(userAccount, UserDto.class);
 	}
 
 	@Override
 	public UserDto updateUser(String login, UserEditDto userEditDto) {
-		// TODO Auto-generated method stub
-		return null;
+		UserAccount userAccount = userAccountRepository.findById(login).orElseThrow(UserNotFoundException::new);
+		if (userAccount.getFirstName() != null) {
+			userAccount.setFirstName(userEditDto.getFirstName()); 	
+		}
+		if (userAccount.getLastName() != null) {
+			userAccount.setLastName(userEditDto.getLastName());
+		}
+		return modelMapper.map(userAccount, UserDto.class);
 	}
 
 	@Override
 	public RolesDto changeRolesList(String login, String role, boolean isAddRole) {
-		// TODO Auto-generated method stub
-		return null;
+		UserAccount userAccount = userAccountRepository.findById(login).orElseThrow(UserNotFoundException::new);
+		if (isAddRole) {
+			userAccount.addRole(role);
+			userAccountRepository.save(userAccount); 
+			return modelMapper.map(userAccount, RolesDto.class);
+		} else {
+			userAccount.removeRole(role);
+			userAccountRepository.save(userAccount);
+			return modelMapper.map(userAccount, RolesDto.class);
+		}
+
 	}
 
 	@Override
 	public void changePassword(String login, String newPassword) {
-		// TODO Auto-generated method stub
+		UserAccount userAccount = userAccountRepository.findById(login).orElseThrow(UserNotFoundException::new);
+		if (userAccount.getPassword().equals(newPassword)) {
+			throw new UserExistsException();
+		} else {
+			userAccount.setPassword(newPassword);
+			userAccountRepository.save(userAccount);
+		}
 
 	}
 

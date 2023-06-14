@@ -2,6 +2,8 @@ package telran.java47.accounting.controller;
 
 import java.security.Principal;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,10 +63,14 @@ public class UserAccountController {
 		return userAccountService.changeRolesList(login, role, false);
 	}
 
+//	@PutMapping("/password")
+//	public void changePassword(Principal principal, @RequestHeader("X-Password") String newPassword) {
+//		userAccountService.changePassword(principal.getName(), newPassword);
+//
+//	}
 	@PutMapping("/password")
-	public void changePassword(Principal principal, @RequestHeader("X-Password") String newPassword) {
+	public ResponseEntity<Void>  changePassword(Principal principal, @RequestHeader("X-Password") String newPassword){
 		userAccountService.changePassword(principal.getName(), newPassword);
-
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-
 }
