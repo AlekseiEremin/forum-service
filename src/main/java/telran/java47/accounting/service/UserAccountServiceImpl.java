@@ -61,14 +61,11 @@ public class UserAccountServiceImpl implements UserAccountService {
 		UserAccount userAccount = userAccountRepository.findById(login).orElseThrow(UserNotFoundException::new);
 		if (isAddRole) {
 			userAccount.addRole(role);
-			userAccountRepository.save(userAccount); 
-			return modelMapper.map(userAccount, RolesDto.class);
 		} else {
 			userAccount.removeRole(role);
-			userAccountRepository.save(userAccount);
-			return modelMapper.map(userAccount, RolesDto.class);
 		}
-
+		userAccountRepository.save(userAccount); 
+		return modelMapper.map(userAccount, RolesDto.class);
 	}
 
 	@Override
