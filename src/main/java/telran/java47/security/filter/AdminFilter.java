@@ -22,7 +22,7 @@ public class AdminFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
-		
+		//TODO
 		chain.doFilter(request, response);
 
 	}
