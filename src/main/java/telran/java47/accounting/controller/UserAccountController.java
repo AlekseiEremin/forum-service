@@ -20,6 +20,7 @@ import telran.java47.accounting.dto.UserDto;
 import telran.java47.accounting.dto.UserEditDto;
 import telran.java47.accounting.dto.UserRegisterDto;
 import telran.java47.accounting.service.UserAccountService;
+import telran.java47.security.model.Roles;
 
 @RestController
 @RequestMapping("/account")
@@ -54,12 +55,12 @@ public class UserAccountController {
 	}
 
 	@PutMapping("/user/{login}/role/{role}")
-	public RolesDto addRole(@PathVariable String login, @PathVariable String role) {
+	public RolesDto addRole(@PathVariable String login, @PathVariable Roles role) {
 		return userAccountService.changeRolesList(login, role, true);
 	}
 
 	@DeleteMapping("/user/{login}/role/{role}")
-	public RolesDto deleteRole(@PathVariable String login, @PathVariable String role) {
+	public RolesDto deleteRole(@PathVariable String login, @PathVariable Roles role) {
 		return userAccountService.changeRolesList(login, role, false);
 	}
 
